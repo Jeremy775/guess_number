@@ -1,4 +1,6 @@
 import random
+from threading import Timer
+
 play = True
 
 while play:
@@ -8,7 +10,16 @@ while play:
     count = 0
 
     while guess != secret:
-        guess = input('Saisissez un chiffre entre 1 et 10: ')
+        timeout = 10
+        t = Timer(timeout, print, ['Sorry, times up'])
+        t.start()
+        prompt = "Vous avez %d secondes pour saisir un chiffre entre 1 et 10: \n" % timeout
+        guess = input(prompt)
+        t.cancel()
+        if timeout == 0:
+            break
+
+        # guess = input('Saisissez un chiffre entre 1 et 10: ')
         if guess.isdigit():
             guess = int(guess)
         else : 
